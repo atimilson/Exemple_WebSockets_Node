@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script type="text/javascript">
+      const ws = new WebSocket('ws://localhost:8080');
+      // A classe `WebSocket` nos navegadores tem uma sintaxe um pouco diferente de `ws`
+      // Ao invés da sintax de EventEmmiter `on('open')`, você adiciona um callback
+      // a propriedade `onopen`.
+      ws.onopen = function() {
+        document.querySelector('#send').disabled = false;
+        document.querySelector('#send').addEventListener('click', function() {
+          ws.send(document.querySelector('#message').value);
+        });
+      };
+      ws.onmessage = function(msg) {
+        document.querySelector('#messages').innerHTML += `<div>${msg.data}</div>`;
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Chat</h1>
+    <div>
+      <input id="message" placeholder="Message">
+      <button id="send" disabled="true">Send</button>
+    </div>
+    <div id="messages">
+    </div>
+  </body>
+</html>
